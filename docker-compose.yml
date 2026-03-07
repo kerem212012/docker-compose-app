@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+    volumes:
+      - ./app.py:/app/app.py  # Hot reload для разработки
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Автозапуск SQL
+    networks:
+      - default
+
+volumes:
+  postgres_data:  # Объявляем volume
