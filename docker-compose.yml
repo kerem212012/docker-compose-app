@@ -37,6 +37,11 @@ services:
       - ./ssl:/etc/nginx/ssl
     depends_on:
       - app
-
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 volumes:
   postgres_data:  # Объявляем volume
