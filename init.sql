@@ -19,4 +19,3 @@ INSERT INTO students (name, progress) VALUES
     ('Max', 50),
     ('Anna', 75),
     ('Sergey', 100);
-EOF
